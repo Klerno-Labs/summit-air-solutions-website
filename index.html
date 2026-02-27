@@ -1,0 +1,780 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Summit Air Solutions provides top-tier HVAC repair, installation, and maintenance in Austin, TX. 24/7 Emergency service available.">
+    <title>Summit Air Solutions | Austin's Trusted HVAC Experts</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Manrope:wght@500;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS (CDN for standalone production) -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <!-- Tailwind Config -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#1B3A5C', // Navy Blue
+                        secondary: '#F4F7F9', // Light Blue-Gray
+                        accent: '#E8751A', // Vibrant Orange
+                        surface: '#FFFFFF',
+                        text: '#1B3A5C',
+                        muted: '#555555',
+                    },
+                    fontFamily: {
+                        heading: ['Manrope', 'sans-serif'],
+                        body: ['Inter', 'sans-serif'],
+                    },
+                    boxShadow: {
+                        'card': '0 4px 20px rgba(27, 58, 92, 0.08)',
+                        'hover': '0 12px 24px rgba(27, 58, 92, 0.12)',
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* Custom Animations & Styles */
+        body {
+            font-family: 'Inter', sans-serif;
+            overflow-x: hidden;
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Manrope', sans-serif;
+        }
+
+        /* Scroll Animation Classes */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s cubic-bezier(0.5, 0, 0, 1);
+        }
+
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Mobile Menu Transition */
+        .mobile-menu {
+            transition: transform 0.3s ease-in-out;
+        }
+        .mobile-menu.closed {
+            transform: translateX(100%);
+        }
+        .mobile-menu.open {
+            transform: translateX(0);
+        }
+
+        /* Calculator Animation Styles */
+        .bar-fill {
+            transition: height 1s cubic-bezier(0.4, 0, 0.2, 1), width 1s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        /* Pulsing Dot Animation */
+        @keyframes pulse-green {
+            0% { box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.7); }
+            70% { box-shadow: 0 0 0 10px rgba(34, 197, 94, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(34, 197, 94, 0); }
+        }
+        .pulse-dot {
+            animation: pulse-green 2s infinite;
+        }
+
+        /* Toast Notification */
+        #toast {
+            visibility: hidden;
+            min-width: 250px;
+            background-color: #1B3A5C;
+            color: #fff;
+            text-align: center;
+            border-radius: 8px;
+            padding: 16px;
+            position: fixed;
+            z-index: 100;
+            left: 50%;
+            bottom: 30px;
+            transform: translateX(-50%);
+            opacity: 0;
+            transition: opacity 0.5s, bottom 0.5s;
+        }
+
+        #toast.show {
+            visibility: visible;
+            opacity: 1;
+            bottom: 50px;
+        }
+    </style>
+</head>
+<body class="bg-white text-text antialiased selection:bg-accent selection:text-white">
+
+    <!-- Sticky Navigation -->
+    <header id="main-header" class="fixed w-full top-0 z-50 bg-white/95 backdrop-blur-lg shadow-sm border-b border-gray-100 transition-all duration-300">
+        <!-- Utility Bar -->
+        <div class="bg-primary text-white text-xs py-2 hidden md:block">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center">
+                <div class="flex gap-4">
+                    <span class="flex items-center gap-1"><i data-lucide="clock" class="w-3 h-3"></i> 24/7 Emergency Service</span>
+                    <span class="flex items-center gap-1"><i data-lucide="map-pin" class="w-3 h-3"></i> Serving Greater Austin</span>
+                </div>
+                <div class="flex items-center gap-4">
+                    <a href="tel:5125550199" class="font-bold hover:text-accent transition-colors flex items-center gap-1">
+                        <i data-lucide="phone" class="w-3 h-3"></i> (512) 555-0199
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Nav -->
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-20">
+                <!-- Logo -->
+                <div class="flex-shrink-0 flex items-center gap-2 cursor-pointer" onclick="window.scrollTo(0,0)">
+                    <div class="bg-primary text-white p-1.5 rounded-lg">
+                        <i data-lucide="wind" class="w-6 h-6"></i>
+                    </div>
+                    <span class="font-heading font-bold text-2xl text-primary tracking-tight">Summit Air</span>
+                </div>
+
+                <!-- Desktop Links -->
+                <nav class="hidden md:flex space-x-8 items-center">
+                    <a href="#services" class="text-text hover:text-accent font-medium transition-colors">Services</a>
+                    <a href="#financing" class="text-text hover:text-accent font-medium transition-colors">Financing</a>
+                    <a href="#about" class="text-text hover:text-accent font-medium transition-colors">About</a>
+                    <a href="#reviews" class="text-text hover:text-accent font-medium transition-colors">Reviews</a>
+                    <a href="#contact" class="bg-accent text-white px-6 py-2.5 rounded-full font-bold hover:bg-orange-700 transition-all transform hover:-translate-y-0.5 shadow-md flex items-center gap-2">
+                        Request Service <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                    </a>
+                </nav>
+
+                <!-- Mobile Menu Button -->
+                <div class="md:hidden">
+                    <button id="mobile-menu-btn" class="text-primary hover:text-accent p-2">
+                        <i data-lucide="menu" class="w-8 h-8"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Mobile Drawer -->
+    <div id="mobile-drawer" class="mobile-menu closed fixed inset-y-0 right-0 w-64 bg-white z-[60] shadow-xl p-6 flex flex-col justify-between">
+        <div>
+            <div class="flex justify-between items-center mb-8">
+                <span class="font-heading font-bold text-xl text-primary">Menu</span>
+                <button id="mobile-close-btn" class="text-gray-500">
+                    <i data-lucide="x" class="w-6 h-6"></i>
+                </button>
+            </div>
+            <nav class="flex flex-col space-y-4">
+                <a href="#services" class="text-lg font-medium text-primary hover:text-accent mobile-link">Services</a>
+                <a href="#financing" class="text-lg font-medium text-primary hover:text-accent mobile-link">Financing</a>
+                <a href="#about" class="text-lg font-medium text-primary hover:text-accent mobile-link">About</a>
+                <a href="#reviews" class="text-lg font-medium text-primary hover:text-accent mobile-link">Reviews</a>
+                <hr class="my-4">
+                <a href="tel:5125550199" class="text-lg font-bold text-accent flex items-center gap-2 mobile-link">
+                    <i data-lucide="phone"></i> (512) 555-0199
+                </a>
+                <a href="#contact" class="bg-primary text-white text-center py-3 rounded-lg font-bold hover:bg-navy-800 transition-colors mobile-link">
+                    Request Service
+                </a>
+            </nav>
+        </div>
+        <div class="text-xs text-muted text-center">
+            &copy; 2023 Summit Air Solutions
+        </div>
+    </div>
+    <!-- Overlay -->
+    <div id="drawer-overlay" class="fixed inset-0 bg-black/50 z-[55] hidden transition-opacity opacity-0"></div>
+
+    <!-- Real-Time Availability Bar -->
+    <div class="fixed top-20 md:top-10 left-1/2 transform -translate-x-1/2 z-40 bg-white/90 backdrop-blur shadow-lg border-l-4 border-green-500 rounded-full px-4 py-2 flex items-center gap-3 max-w-sm md:max-w-md w-[90%] transition-transform duration-500 reveal">
+        <div class="relative flex h-3 w-3">
+          <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
+          <span class="relative inline-flex rounded-full h-3 w-3 bg-green-500"></span>
+        </div>
+        <span class="text-sm font-semibold text-primary truncate">Technicians in <span class="text-accent">Austin</span> available now. Same-day service slots left!</span>
+    </div>
+
+    <!-- Hero Section -->
+    <section class="relative h-[85vh] min-h-[600px] flex items-center justify-center overflow-hidden mt-16 md:mt-0">
+        <!-- Background Image -->
+        <div class="absolute inset-0">
+            <img src="https://images.unsplash.com/photo-1581578731548-c64695cc6952?w=1920&q=80" alt="HVAC Technician" class="w-full h-full object-cover">
+            <!-- Overlay -->
+            <div class="absolute inset-0 bg-primary/80"></div>
+        </div>
+
+        <!-- Content -->
+        <div class="relative z-10 text-center max-w-4xl px-4 reveal">
+            <div class="inline-block bg-accent/20 border border-accent/40 text-accent px-4 py-1 rounded-full text-sm font-bold mb-6 backdrop-blur-sm">
+                Austin's #1 Rated HVAC Team
+            </div>
+            <h1 class="text-4xl md:text-6xl font-bold text-white mb-6 leading-tight tracking-tight">
+                Reliable Comfort, <br class="hidden md:block" /> Honest Pricing.
+            </h1>
+            <p class="text-gray-200 text-lg md:text-xl mb-8 max-w-2xl mx-auto">
+                From emergency repairs to precision installations, our NATE-certified experts ensure your home stays perfect year-round.
+            </p>
+            <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                <a href="#contact" class="bg-accent text-white px-8 py-4 rounded-lg font-bold text-lg hover:bg-orange-700 transition-all transform hover:-translate-y-1 shadow-lg flex items-center justify-center gap-2">
+                    Schedule Service <i data-lucide="calendar" class="w-5 h-5"></i>
+                </a>
+                <a href="tel:5125550199" class="bg-white text-primary px-8 py-4 rounded-lg font-bold text-lg hover:bg-gray-50 transition-all border-2 border-transparent hover:border-white flex items-center justify-center gap-2">
+                    <i data-lucide="phone" class="w-5 h-5"></i> (512) 555-0199
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Trust Badges -->
+    <section class="bg-white border-b border-gray-100 py-8">
+        <div class="max-w-7xl mx-auto px-4 text-center">
+            <p class="text-sm text-muted uppercase tracking-widest font-semibold mb-6">Trusted Partners & Certifications</p>
+            <div class="flex flex-wrap justify-center items-center gap-8 md:gap-16 opacity-60 grayscale hover:grayscale-0 transition-all duration-500">
+                <!-- Simple Text Placeholders for Logos -->
+                <span class="font-heading font-bold text-xl text-primary">NATE</span>
+                <span class="font-heading font-bold text-xl text-primary">Lennox</span>
+                <span class="font-heading font-bold text-xl text-primary">Carrier</span>
+                <span class="font-heading font-bold text-xl text-primary">Trane</span>
+                <span class="font-heading font-bold text-xl text-primary">BBB A+</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section id="services" class="py-24 bg-secondary">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-16 reveal">
+                <h2 class="text-3xl md:text-4xl font-bold text-primary mb-4">Complete HVAC Solutions</h2>
+                <p class="text-muted text-lg">Whether you need a quick fix or a whole new system, we have the tools and expertise to get the job done right.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- Service Card 1 -->
+                <div class="bg-white p-8 rounded-xl shadow-card hover:shadow-hover transition-all duration-300 border border-transparent hover:border-gray-100 group reveal">
+                    <div class="w-14 h-14 bg-secondary rounded-lg flex items-center justify-center text-primary mb-6 group-hover:bg-accent group-hover:text-white transition-colors">
+                        <i data-lucide="wrench" class="w-8 h-8"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-primary mb-3">Expert Repair</h3>
+                    <p class="text-muted mb-6">Fast diagnostics and reliable repairs for all major brands. We fix it right the first time, guaranteed.</p>
+                    <a href="#contact" class="text-accent font-semibold flex items-center gap-2 group-hover:gap-3 transition-all">
+                        Get a Quote <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                    </a>
+                </div>
+
+                <!-- Service Card 2 -->
+                <div class="bg-white p-8 rounded-xl shadow-card hover:shadow-hover transition-all duration-300 border border-transparent hover:border-gray-100 group reveal" style="transition-delay: 100ms;">
+                    <div class="w-14 h-14 bg-secondary rounded-lg flex items-center justify-center text-primary mb-6 group-hover:bg-accent group-hover:text-white transition-colors">
+                        <i data-lucide="snowflake" class="w-8 h-8"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-primary mb-3">Precision Install</h3>
+                    <p class="text-muted mb-6">Custom HVAC system design and installation for maximum efficiency and home comfort.</p>
+                    <a href="#contact" class="text-accent font-semibold flex items-center gap-2 group-hover:gap-3 transition-all">
+                        Consult Now <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                    </a>
+                </div>
+
+                <!-- Service Card 3 -->
+                <div class="bg-white p-8 rounded-xl shadow-card hover:shadow-hover transition-all duration-300 border border-transparent hover:border-gray-100 group reveal" style="transition-delay: 200ms;">
+                    <div class="w-14 h-14 bg-secondary rounded-lg flex items-center justify-center text-primary mb-6 group-hover:bg-accent group-hover:text-white transition-colors">
+                        <i data-lucide="activity" class="w-8 h-8"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-primary mb-3">Maintenance Plans</h3>
+                    <p class="text-muted mb-6">Prevent breakdowns and extend equipment life with our seasonal tune-ups and priority service.</p>
+                    <a href="#contact" class="text-accent font-semibold flex items-center gap-2 group-hover:gap-3 transition-all">
+                        View Plans <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ZigZag Feature -->
+    <section class="py-24 bg-white overflow-hidden">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col md:flex-row items-center gap-12 lg:gap-24">
+                <div class="md:w-1/2 reveal">
+                    <img src="https://images.unsplash.com/photo-1558618666-fcd25c85f82e?w=800&q=80" alt="Technician working" class="rounded-2xl shadow-2xl w-full object-cover h-[400px]">
+                </div>
+                <div class="md:w-1/2 reveal">
+                    <h2 class="text-3xl md:text-4xl font-bold text-primary mb-6">Why Austin Chooses Summit</h2>
+                    <div class="space-y-6">
+                        <div class="flex gap-4">
+                            <div class="flex-shrink-0">
+                                <div class="w-10 h-10 rounded-full bg-secondary flex items-center justify-center text-primary font-bold">1</div>
+                            </div>
+                            <div>
+                                <h4 class="text-lg font-bold text-primary">Upfront Pricing</h4>
+                                <p class="text-muted">No hidden fees or surprises. You approve the price before we start any work.</p>
+                            </div>
+                        </div>
+                        <div class="flex gap-4">
+                            <div class="flex-shrink-0">
+                                <div class="w-10 h-10 rounded-full bg-secondary flex items-center justify-center text-primary font-bold">2</div>
+                            </div>
+                            <div>
+                                <h4 class="text-lg font-bold text-primary">Licensed & Insured</h4>
+                                <p class="text-muted">Our technicians are NATE-certified and background checked for your peace of mind.</p>
+                            </div>
+                        </div>
+                        <div class="flex gap-4">
+                            <div class="flex-shrink-0">
+                                <div class="w-10 h-10 rounded-full bg-secondary flex items-center justify-center text-primary font-bold">3</div>
+                            </div>
+                            <div>
+                                <h4 class="text-lg font-bold text-primary">100% Satisfaction</h4>
+                                <p class="text-muted">We aren't happy until you are. We stand behind every job with a 1-year labor warranty.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Financing Calculator Section -->
+    <section id="financing" class="py-24 bg-primary text-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col md:flex-row gap-16 items-center">
+                <div class="md:w-1/2 reveal">
+                    <h2 class="text-3xl md:text-4xl font-bold mb-6">Comfort Now, Pay Later</h2>
+                    <p class="text-blue-100 text-lg mb-8">Upgrading to a high-efficiency system can lower your monthly energy bills. Use our calculator to estimate your monthly payments.</p>
+                    <ul class="space-y-4 mb-8">
+                        <li class="flex items-center gap-3"><i data-lucide="check-circle" class="text-accent"></i> Same-as-cash financing available</li>
+                        <li class="flex items-center gap-3"><i data-lucide="check-circle" class="text-accent"></i> Monthly payments as low as $99</li>
+                        <li class="flex items-center gap-3"><i data-lucide="check-circle" class="text-accent"></i> Quick credit approval</li>
+                    </ul>
+                    <a href="#contact" class="inline-block bg-accent text-white px-6 py-3 rounded-lg font-bold hover:bg-orange-700 transition-colors">
+                        Apply for Financing
+                    </a>
+                </div>
+
+                <!-- Calculator Widget -->
+                <div class="md:w-1/2 w-full bg-white rounded-xl p-8 shadow-2xl text-primary reveal">
+                    <h3 class="text-2xl font-bold mb-6 text-center">Payment Estimator</h3>
+                    
+                    <div class="mb-6">
+                        <label class="block text-sm font-medium text-gray-700 mb-2">System Cost ($)</label>
+                        <input type="range" id="costRange" min="3000" max="20000" step="500" value="8000" class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-accent">
+                        <div class="flex justify-between text-sm text-gray-500 mt-1">
+                            <span>$3,000</span>
+                            <span id="costValue" class="font-bold text-primary text-lg">$8,000</span>
+                            <span>$20,000</span>
+                        </div>
+                    </div>
+
+                    <div class="mb-8">
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Term Length</label>
+                        <div class="grid grid-cols-4 gap-2">
+                            <button class="term-btn py-2 rounded border border-gray-300 hover:border-accent hover:text-accent transition-colors text-sm font-medium" data-term="36">36 Mo</button>
+                            <button class="term-btn py-2 rounded border border-accent bg-accent/10 text-accent transition-colors text-sm font-medium" data-term="60">60 Mo</button>
+                            <button class="term-btn py-2 rounded border border-gray-300 hover:border-accent hover:text-accent transition-colors text-sm font-medium" data-term="120">120 Mo</button>
+                            <button class="term-btn py-2 rounded border border-gray-300 hover:border-accent hover:text-accent transition-colors text-sm font-medium" data-term="180">180 Mo</button>
+                        </div>
+                    </div>
+
+                    <div class="bg-secondary rounded-lg p-6 text-center">
+                        <p class="text-sm text-gray-500 mb-1">Estimated Monthly Payment</p>
+                        <p id="monthlyPayment" class="text-4xl font-bold text-accent mb-2">$142</p>
+                        <p class="text-xs text-gray-400">*Estimate only. Subject to credit approval.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials -->
+    <section id="reviews" class="py-24 bg-secondary">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-16 reveal">
+                <h2 class="text-3xl md:text-4xl font-bold text-primary mb-4">What Your Neighbors Say</h2>
+                <div class="flex justify-center items-center gap-1 text-yellow-400 mb-4">
+                    <i data-lucide="star" class="w-6 h-6 fill-current"></i>
+                    <i data-lucide="star" class="w-6 h-6 fill-current"></i>
+                    <i data-lucide="star" class="w-6 h-6 fill-current"></i>
+                    <i data-lucide="star" class="w-6 h-6 fill-current"></i>
+                    <i data-lucide="star" class="w-6 h-6 fill-current"></i>
+                    <span class="text-primary font-bold ml-2">4.9/5 Google Rating</span>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- Review 1 -->
+                <div class="bg-white p-8 rounded-xl shadow-card reveal">
+                    <div class="flex text-yellow-400 mb-4">
+                        <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                        <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                        <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                        <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                        <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                    </div>
+                    <p class="text-muted mb-6 italic">"Summit Air saved us during the Texas freeze! They were the only ones who answered and had a tech at our door within 2 hours. Incredible service."</p>
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 rounded-full bg-gray-200 overflow-hidden">
+                            <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=100&q=80" alt="User" class="w-full h-full object-cover">
+                        </div>
+                        <div>
+                            <p class="font-bold text-primary text-sm">Mark D.</p>
+                            <p class="text-xs text-gray-500">Austin, TX</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Review 2 -->
+                <div class="bg-white p-8 rounded-xl shadow-card reveal" style="transition-delay: 100ms;">
+                    <div class="flex text-yellow-400 mb-4">
+                        <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                        <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                        <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                        <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                        <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                    </div>
+                    <p class="text-muted mb-6 italic">"The financing options made it possible for us to replace our 15-year-old unit. The installation crew was professional, clean, and fast."</p>
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 rounded-full bg-gray-200 overflow-hidden">
+                            <img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=100&q=80" alt="User" class="w-full h-full object-cover">
+                        </div>
+                        <div>
+                            <p class="font-bold text-primary text-sm">Sarah L.</p>
+                            <p class="text-xs text-gray-500">Round Rock, TX</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Review 3 -->
+                <div class="bg-white p-8 rounded-xl shadow-card reveal" style="transition-delay: 200ms;">
+                    <div class="flex text-yellow-400 mb-4">
+                        <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                        <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                        <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                        <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                        <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                    </div>
+                    <p class="text-muted mb-6 italic">"Honest pricing. I had another company try to upsell me on a whole new system, but Summit just fixed a capacitor and I was good to go!"</p>
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 rounded-full bg-gray-200 overflow-hidden">
+                            <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=100&q=80" alt="User" class="w-full h-full object-cover">
+                        </div>
+                        <div>
+                            <p class="font-bold text-primary text-sm">James R.</p>
+                            <p class="text-xs text-gray-500">Cedar Park, TX</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Promo Section -->
+    <section class="py-16 bg-white">
+        <div class="max-w-4xl mx-auto px-4">
+            <div class="bg-secondary border-2 border-dashed border-accent rounded-2xl p-8 md:p-12 text-center relative overflow-hidden reveal">
+                <div class="absolute top-0 right-0 bg-accent text-white text-xs font-bold px-3 py-1 rounded-bl-lg">LIMITED TIME</div>
+                <h3 class="text-2xl md:text-3xl font-bold text-primary mb-2">$59 System Tune-Up</h3>
+                <p class="text-muted mb-6">Regularly $129. Get your AC ready for the Texas heat!</p>
+                <div class="flex flex-col sm:flex-row justify-center gap-4">
+                    <button onclick="showToast('Coupon Code SUMMIT59 copied!')" class="bg-accent text-white px-8 py-3 rounded-lg font-bold hover:bg-orange-700 transition-colors">
+                        Copy Coupon: SUMMIT59
+                    </button>
+                    <a href="#contact" class="text-primary font-bold px-6 py-3 hover:underline">
+                        Schedule Now
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="py-24 bg-secondary">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-16">
+                <!-- Info -->
+                <div class="reveal">
+                    <h2 class="text-3xl md:text-4xl font-bold text-primary mb-6">Get in Touch</h2>
+                    <p class="text-muted text-lg mb-8">Ready to experience the Summit Air difference? Fill out the form or give us a call. We're here to help.</p>
+                    
+                    <div class="space-y-6">
+                        <div class="flex items-start gap-4">
+                            <div class="w-10 h-10 rounded-full bg-white flex items-center justify-center text-primary shadow-sm">
+                                <i data-lucide="phone" class="w-5 h-5"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-primary">Phone</h4>
+                                <a href="tel:5125550199" class="text-accent font-medium text-lg">(512) 555-0199</a>
+                                <p class="text-sm text-muted">Available 24/7 for Emergencies</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start gap-4">
+                            <div class="w-10 h-10 rounded-full bg-white flex items-center justify-center text-primary shadow-sm">
+                                <i data-lucide="map-pin" class="w-5 h-5"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-primary">Service Area</h4>
+                                <p class="text-muted">Austin, Round Rock, Cedar Park, Pflugerville, Georgetown</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start gap-4">
+                            <div class="w-10 h-10 rounded-full bg-white flex items-center justify-center text-primary shadow-sm">
+                                <i data-lucide="mail" class="w-5 h-5"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-primary">Email</h4>
+                                <a href="mailto:service@summitairsolutions.com" class="text-muted hover:text-primary">service@summitairsolutions.com</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Form -->
+                <div class="bg-white p-8 rounded-xl shadow-card reveal">
+                    <form id="contactForm" onsubmit="handleFormSubmit(event)" class="space-y-4">
+                        <div>
+                            <label class="block text-sm font-medium text-primary mb-1">Full Name</label>
+                            <input type="text" required class="w-full px-4 py-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-accent focus:border-transparent outline-none transition-all bg-gray-50 focus:bg-white" placeholder="John Doe">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-primary mb-1">Phone Number</label>
+                            <input type="tel" required class="w-full px-4 py-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-accent focus:border-transparent outline-none transition-all bg-gray-50 focus:bg-white" placeholder="(512) 555-0123">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-primary mb-1">Service Type</label>
+                            <select class="w-full px-4 py-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-accent focus:border-transparent outline-none transition-all bg-gray-50 focus:bg-white">
+                                <option>Repair / Diagnostic</option>
+                                <option>New Installation</option>
+                                <option>Maintenance Tune-Up</option>
+                                <option>Indoor Air Quality</option>
+                                <option>Other</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-primary mb-1">Message</label>
+                            <textarea rows="4" class="w-full px-4 py-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-accent focus:border-transparent outline-none transition-all bg-gray-50 focus:bg-white" placeholder="Describe your issue..."></textarea>
+                        </div>
+                        <button type="submit" class="w-full bg-accent text-white font-bold py-4 rounded-md hover:bg-orange-700 transition-colors shadow-md flex justify-center items-center gap-2">
+                            <span>Request Service</span> <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-primary text-white pt-16 pb-8">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-12">
+                <div>
+                    <div class="flex items-center gap-2 mb-4">
+                        <div class="bg-white text-primary p-1.5 rounded-lg">
+                            <i data-lucide="wind" class="w-6 h-6"></i>
+                        </div>
+                        <span class="font-heading font-bold text-2xl">Summit Air</span>
+                    </div>
+                    <p class="text-blue-200 text-sm leading-relaxed mb-4">Austin's trusted experts in residential and commercial HVAC. We are committed to your comfort and our community.</p>
+                    <div class="flex gap-4">
+                        <a href="#" class="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center hover:bg-accent transition-colors"><i data-lucide="facebook" class="w-4 h-4"></i></a>
+                        <a href="#" class="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center hover:bg-accent transition-colors"><i data-lucide="instagram" class="w-4 h-4"></i></a>
+                        <a href="#" class="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center hover:bg-accent transition-colors"><i data-lucide="linkedin" class="w-4 h-4"></i></a>
+                    </div>
+                </div>
+                <div>
+                    <h4 class="font-bold text-lg mb-4">Services</h4>
+                    <ul class="space-y-2 text-blue-200 text-sm">
+                        <li><a href="#" class="hover:text-accent transition-colors">AC Repair</a></li>
+                        <li><a href="#" class="hover:text-accent transition-colors">Heating Repair</a></li>
+                        <li><a href="#" class="hover:text-accent transition-colors">HVAC Installation</a></li>
+                        <li><a href="#" class="hover:text-accent transition-colors">Duct Cleaning</a></li>
+                        <li><a href="#" class="hover:text-accent transition-colors">Smart Thermostats</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-bold text-lg mb-4">Company</h4>
+                    <ul class="space-y-2 text-blue-200 text-sm">
+                        <li><a href="#about" class="hover:text-accent transition-colors">About Us</a></li>
+                        <li><a href="#" class="hover:text-accent transition-colors">Careers</a></li>
+                        <li><a href="#" class="hover:text-accent transition-colors">Financing</a></li>
+                        <li><a href="#" class="hover:text-accent transition-colors">Contact</a></li>
+                        <li><a href="#" class="hover:text-accent transition-colors">Privacy Policy</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-bold text-lg mb-4">Contact</h4>
+                    <ul class="space-y-2 text-blue-200 text-sm">
+                        <li class="flex gap-3"><i data-lucide="map-pin" class="w-4 h-4 mt-0.5"></i> Austin, TX 78701</li>
+                        <li class="flex gap-3"><i data-lucide="phone" class="w-4 h-4 mt-0.5"></i> (512) 555-0199</li>
+                        <li class="flex gap-3"><i data-lucide="mail" class="w-4 h-4 mt-0.5"></i> help@summitairsolutions.com</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="border-t border-white/10 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
+                <p class="text-xs text-blue-300">&copy; 2023 Summit Air Solutions. All rights reserved.</p>
+                <div class="flex gap-4 text-xs text-blue-300">
+                    <span>TACLB83988E</span>
+                    <span>M-1234</span>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Mobile Sticky CTA (Visible on small screens) -->
+    <div class="fixed bottom-0 left-0 w-full bg-white border-t border-gray-200 p-4 md:hidden z-40 flex gap-3">
+        <a href="tel:5125550199" class="flex-1 bg-secondary text-primary font-bold py-3 rounded-lg flex justify-center items-center gap-2">
+            <i data-lucide="phone" class="w-4 h-4"></i> Call
+        </a>
+        <a href="#contact" class="flex-1 bg-accent text-white font-bold py-3 rounded-lg flex justify-center items-center gap-2 shadow-lg">
+            <i data-lucide="calendar" class="w-4 h-4"></i> Book
+        </a>
+    </div>
+
+    <!-- Toast Notification Element -->
+    <div id="toast">Message here</div>
+
+    <!-- Scripts -->
+    <script>
+        // Initialize Icons
+        lucide.createIcons();
+
+        // Mobile Menu Logic
+        const menuBtn = document.getElementById('mobile-menu-btn');
+        const closeBtn = document.getElementById('mobile-close-btn');
+        const drawer = document.getElementById('mobile-drawer');
+        const overlay = document.getElementById('drawer-overlay');
+        const mobileLinks = document.querySelectorAll('.mobile-link');
+
+        function toggleMenu() {
+            const isClosed = drawer.classList.contains('closed');
+            if (isClosed) {
+                drawer.classList.remove('closed');
+                drawer.classList.add('open');
+                overlay.classList.remove('hidden');
+                setTimeout(() => overlay.classList.remove('opacity-0'), 10);
+            } else {
+                drawer.classList.remove('open');
+                drawer.classList.add('closed');
+                overlay.classList.add('opacity-0');
+                setTimeout(() => overlay.classList.add('hidden'), 300);
+            }
+        }
+
+        menuBtn.addEventListener('click', toggleMenu);
+        closeBtn.addEventListener('click', toggleMenu);
+        overlay.addEventListener('click', toggleMenu);
+        mobileLinks.forEach(link => link.addEventListener('click', toggleMenu));
+
+        // Scroll Animations (Intersection Observer)
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: "0px 0px -50px 0px"
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                    observer.unobserve(entry.target); // Only animate once
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+        // Calculator Logic
+        const costRange = document.getElementById('costRange');
+        const costValue = document.getElementById('costValue');
+        const monthlyPayment = document.getElementById('monthlyPayment');
+        const termBtns = document.querySelectorAll('.term-btn');
+        
+        let currentCost = 8000;
+        let currentTerm = 60; // months
+        const apr = 0.099; // 9.9% APR estimated
+
+        function calculatePayment() {
+            // Standard loan amortization formula: P * (r * (1+r)^n) / ((1+r)^n - 1)
+            const monthlyRate = apr / 12;
+            const payment = currentCost * (monthlyRate * Math.pow(1 + monthlyRate, currentTerm)) / (Math.pow(1 + monthlyRate, currentTerm) - 1);
+            
+            // Format currency
+            monthlyPayment.textContent = '$' + Math.ceil(payment).toLocaleString();
+            
+            // Update cost display
+            costValue.textContent = '$' + currentCost.toLocaleString();
+        }
+
+        costRange.addEventListener('input', (e) => {
+            currentCost = parseInt(e.target.value);
+            calculatePayment();
+        });
+
+        termBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                // Remove active classes
+                termBtns.forEach(b => {
+                    b.classList.remove('border-accent', 'bg-accent/10', 'text-accent');
+                    b.classList.add('border-gray-300');
+                });
+                // Add active class
+                btn.classList.remove('border-gray-300');
+                btn.classList.add('border-accent', 'bg-accent/10', 'text-accent');
+                
+                currentTerm = parseInt(btn.dataset.term);
+                calculatePayment();
+            });
+        });
+
+        // Initial calc
+        calculatePayment();
+
+        // Form Handling
+        function handleFormSubmit(e) {
+            e.preventDefault();
+            const btn = e.target.querySelector('button[type="submit"]');
+            const originalText = btn.innerHTML;
+            
+            // Loading state
+            btn.disabled = true;
+            btn.innerHTML = '<i data-lucide="loader-2" class="w-5 h-5 animate-spin"></i> Sending...';
+            lucide.createIcons();
+
+            // Simulate API call
+            setTimeout(() => {
+                showToast("Request Sent! We'll call you shortly.");
+                btn.disabled = false;
+                btn.innerHTML = originalText;
+                e.target.reset();
+            }, 1500);
+        }
+
+        // Toast Notification
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            toast.textContent = message;
+            toast.classList.add('show');
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 3000);
+        }
+
+        // Header Scroll Effect
+        window.addEventListener('scroll', () => {
+            const header = document.getElementById('main-header');
+            if (window.scrollY > 50) {
+                header.classList.add('shadow-md');
+            } else {
+                header.classList.remove('shadow-md');
+            }
+        });
+    </script>
+</body>
+</html>
