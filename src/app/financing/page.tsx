@@ -16,7 +16,7 @@ export default function FinancingPage() {
       <section className="bg-primary pt-32 pb-20 text-center text-white">
         <h1 className="text-4xl md:text-6xl font-bold mb-6">Comfort Now. Pay Later.</h1>
         <p className="text-xl text-gray-300 max-w-2xl mx-auto px-4">
-          Don't let a broken budget break your comfort. We offer flexible financing plans to fit any situation.
+          Don&apos;t let a broken budget break your comfort. We offer flexible financing plans to fit any situation.
         </p>
       </section>
 

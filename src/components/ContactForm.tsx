@@ -34,7 +34,7 @@ export default function ContactForm() {
     <div className="bg-white p-8 md:p-10 rounded-2xl shadow-card border border-gray-100">
       <div className="mb-8">
         <h3 className="text-2xl font-bold text-primary mb-2">Request Service</h3>
-        <p className="text-muted">Fill out the form below and we'll get back to you immediately.</p>
+        <p className="text-muted">Fill out the form below and we&apos;ll get back to you immediately.</p>
       </div>
       
       <form onSubmit={handleSubmit} className="space-y-6">

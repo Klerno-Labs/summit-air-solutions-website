@@ -77,7 +77,7 @@ export default function ServicesPage() {
             { step: "01", title: "Schedule", text: "Book online or call. We offer 2-hour arrival windows." },
             { step: "02", title: "Diagnosis", text: "Tech performs a thorough system check and explains the issue." },
             { step: "03", title: "Quote", text: "You receive a flat-rate price before any work begins." },
-            { step: "04", title: "Comfort", text: "We complete the job, clean up, and ensure you're satisfied." }
+            { step: "04", title: "Comfort", text: "We complete the job, clean up, and ensure you&apos;re satisfied." }
           ].map((item) => (
             <div key={item.step} className="text-center">
               <div className="text-accent font-bold text-5xl mb-4 opacity-20">{item.step}</div>

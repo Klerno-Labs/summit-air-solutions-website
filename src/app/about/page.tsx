@@ -65,7 +65,7 @@ export default function AboutPage() {
         <h2 className="text-3xl font-bold text-center text-primary mb-12">Our Core Values</h2>
         <div className="grid md:grid-cols-3 gap-8">
           {[
-            { icon: Award, title: "Expertise", text: "NATE certification isn't just a piece of paper. It's proof of our technical mastery." },
+            { icon: Award, title: "Expertise", text: "NATE certification isn&apos;t just a piece of paper. It's proof of our technical mastery." },
             { icon: Users, title: "Integrity", text: "We recommend what you need, not what's most expensive. Upfront pricing, always." },
             { icon: HeartHandshake, title: "Community", text: "Proud sponsors of local Austin youth sports and food bank drives." }
           ].map((val, i) => (
@@ -105,7 +105,7 @@ export default function AboutPage() {
       
       <Section bg="secondary" className="text-center">
         <h2 className="text-2xl font-bold text-primary mb-4">Join Our Team</h2>
-        <p className="text-muted mb-6">We're always looking for talented technicians who care about quality.</p>
+        <p className="text-muted mb-6">We&apos;re always looking for talented technicians who care about quality.</p>
         <Link href="/contact">
           <Button variant="outline">View Careers</Button>
         </Link>

@@ -116,7 +116,7 @@ export default function Home() {
               {[
                 { icon: Clock, title: "24/7 Emergency Service", text: "AC goes out at 2 AM? We answer the phone. Austin heat waits for no one." },
                 { icon: DollarSign, title: "Upfront Pricing", text: "You approve the price before we start any work. No surprises, ever." },
-                { icon: ShieldCheck, title: "100% Satisfaction", text: "If you aren't happy, we aren't happy. We stand behind every job." },
+                { icon: ShieldCheck, title: "100% Satisfaction", text: "If you aren&apos;t happy, we aren't happy. We stand behind every job." },
               ].map((item, i) => (
                 <div key={i} className="flex gap-4">
                   <div className="flex-shrink-0">
@@ -206,7 +206,7 @@ export default function Home() {
           <div>
             <h2 className="text-3xl md:text-4xl font-bold text-primary mb-6">Get Your Free Quote</h2>
             <p className="text-lg text-muted mb-8">
-              Don't sweat the small stuff—or the big stuff. Fill out the form, and our friendly dispatchers will get you scheduled.
+              Don&apos;t sweat the small stuff—or the big stuff. Fill out the form, and our friendly dispatchers will get you scheduled.
             </p>
             
             <div className="space-y-6">
